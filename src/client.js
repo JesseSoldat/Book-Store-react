@@ -15,20 +15,25 @@ import reducers from './reducers/index';
 const middleware = applyMiddleware(thunk);
 const store = createStore(reducers, middleware);
 
-const Main = () => <div>Main</div>;
+import Main from './main';
+import Menu from './components/menu';
+import BooksList from './components/pages/booksList';
 
 export const history = createHistory();
 
 const Routes = (
   <Provider store={store}>
-    <Router history={history}>
-      <div>
-        <Switch>
-          <Route path="/" component={Main} />
-          
-        </Switch>
-      </div>
-    </Router>
+    <div>
+      <Menu />
+      <Router history={history}>
+        <div>
+          <Switch>
+            <Route path="/" component={BooksList} />
+            
+          </Switch>
+        </div>
+      </Router>
+    </div>    
   </Provider>
 );
 
