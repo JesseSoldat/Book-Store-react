@@ -3,6 +3,9 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Carousel, Grid, Col, Row, Button} from 'react-bootstrap';
 
+import BookItem from './bookItem';
+
+
 class BooksList extends Component {
   render() {
     return (
@@ -42,4 +45,10 @@ class BooksList extends Component {
   }
 }
 
-export default BooksList;
+const mapStateToProps = (state) => ({
+  books: state.books.books,
+  state: state,
+  stateBooks: state.books,
+});
+
+export default connect(mapStateToProps)(BooksList);
