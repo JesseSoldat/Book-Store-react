@@ -26,3 +26,21 @@ export function postBook(book) {
       });
   }
 }
+
+export function deleteBook(id) {
+  return (dispatch) => {
+    axios.delete('/api/books/' + id)
+      .then((res) => {
+        dispatch({type: 'DELETE_BOOK', payload: id})
+      })
+      .catch((err) => {
+        dispatch({type: 'DELETE_BOOK_REJECTED', payload: err})
+      })
+  }
+}
+
+export function resetButton() {
+  return {
+    type: 'RESET_BUTTON'
+  }
+}

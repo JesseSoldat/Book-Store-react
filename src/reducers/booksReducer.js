@@ -2,9 +2,9 @@
 
 const initialState = {
   books: [],
-  msg: '',
-  style: '',
-  validation: ''
+  msg: null,
+  style: 'primary',
+  validation: null
 }
 
 export function booksReducer(state = {books: []}, action) {
@@ -20,6 +20,24 @@ export function booksReducer(state = {books: []}, action) {
         style: 'danger',
         validation: 'error'
       }
+      break;
+
+    case "RESET_BUTTON":
+      return {
+        ...state,
+        msg: null,
+        validation: null
+      }
+      break;
+    
+    case 'DELETE_BOOK':
+      const booksCopy = [...state.books];
+      const indexToDelete = booksCopy.findIndex((book) => book._id == action.payload);
+
+      return {
+        ...state,
+        books: [...booksCopy.slice(0, indexToDelete), ...booksCopy.slice(indexToDelete + 1)]
+      };
       break;
     
     default:

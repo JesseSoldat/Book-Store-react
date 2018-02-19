@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import {MenuItem, InputGroup, DropdownButton, Image, Col, Row, Well, Panel, FormControl, FormGroup, ControlLabel, Button} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {findDOMNode} from 'react-dom';
-import {postBook} from '../../actions/booksActions';
+import {postBook, deleteBook, getBooks} from '../../actions/booksActions';
 
 class BookForm extends Component {
   state = {
@@ -12,7 +12,7 @@ class BookForm extends Component {
   }
 
   componentDidMount() {
-    
+    this.props.getBooks();
   }
 
   handleSubmit = () => {
@@ -25,11 +25,18 @@ class BookForm extends Component {
   };
 
 
-  onDelete = () => {};
+  onDelete = () => {
+    let bookId = findDOMNode(this.refs.delete).value;
+    this.props.deleteBook(bookId);
+  };
 
   handleSelect = () => {};
 
-  resetForm = () => {};
+  resetForm = () => {
+    findDOMNode(this.refs.title).value = '';
+    findDOMNode(this.refs.description).value = '';
+    findDOMNode(this.refs.price).value = '';
+  };
 
   
 
@@ -42,6 +49,10 @@ class BookForm extends Component {
         {(!this.props.msg) ? "Save Book" : this.props.msg}
       </Button>
     );
+
+    const bookList = this.props.books.map((book) => (
+      <option key={book._id} value={book._id}>{book.title}</option>
+    ));
 
     return(
       <Well>
@@ -88,6 +99,24 @@ class BookForm extends Component {
               </FormGroup>
               {renderButton()}
             </Panel>
+
+            <Panel>
+              <FormGroup controlId="formControlSelect">
+                <ControlLabel>
+                  Select a book to delete
+                </ControlLabel>
+                <FormControl ref="delete"
+                  componentClass="select"
+                  placeholder="select">
+                  <option value="select">select</option>
+                  {bookList}
+                </FormControl>
+              </FormGroup>
+              <Button onClick={this.onDelete}
+                bsStyle="danger">
+                Delete Book
+              </Button>
+            </Panel>
           </Col>
         </Row>
       </Well>
@@ -104,7 +133,9 @@ const mapStateToProps = ({books}) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  postBook: (book) => dispatch(postBook(book))
+  postBook: (book) => dispatch(postBook(book)),
+  deleteBook: (id) => dispatch(deleteBook(id)),
+  getBooks: () => dispatch(getBooks())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BookForm);
