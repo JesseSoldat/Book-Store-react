@@ -2,12 +2,29 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Carousel, Grid, Col, Row, Button} from 'react-bootstrap';
+import {getBooks} from '../../actions/booksActions';
 
 import BookItem from './bookItem';
 
 
 class BooksList extends Component {
+  componentDidMount() {
+    this.props.getBooks();
+  }
+
   render() {
+    const booksList = this.props.books.map((book) => { 
+      return(
+        <Col xs={12} sm={6} md={4} key={book._id}>
+          <BookItem _id={book._id}
+            title={book.title}
+            description={book.description}
+            price={book.price}
+          />
+        </Col>
+      );
+    });
+
     return (
       <Grid>
         <Row>
@@ -38,10 +55,11 @@ class BooksList extends Component {
         </Row>
         <Row>
         </Row>
-        <Row>
+        <Row style={{marginTop: '15px'}}>
+          {booksList}
         </Row>
       </Grid>
-    )
+    );
   }
 }
 
@@ -51,4 +69,8 @@ const mapStateToProps = (state) => ({
   stateBooks: state.books,
 });
 
-export default connect(mapStateToProps)(BooksList);
+const mapDispatchToProps = (dispatch) => ({
+ getBooks: () => dispatch(getBooks())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(BooksList);

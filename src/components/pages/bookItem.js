@@ -8,7 +8,34 @@ class BookItem extends Component {
     isClicked: false
   };
 
+  handleCart = () => {}
+
+    
+  onReadMore = () => {
+    this.setState(() => ({isClicked:true}));
+  }
+  
+
   render() {
+    const renderDescription = () => (
+      (this.props.description.length > 50 && this.state.isClicked === false) 
+      ? (this.props.description.substring(0,50))
+      : (this.props.description)
+    );
+
+    const renderButton = () => (
+      <button className="link"
+        onClick={this.onReadMore}
+      >
+      {
+        (this.state.isClicked === false && this.props.description !== null && this.props.description.length > 50)
+        ? ('...read more')
+        : ('')
+      }
+      </button>
+    );
+
+  
     return (
       <Well>
         <Row>
@@ -16,10 +43,16 @@ class BookItem extends Component {
 
           </Col>
           <Col xs={6} sm={8}>
-            <h6></h6>
-            <p></p>
-            <h6>usd. </h6>
-          
+            <h6>{this.props.title}</h6>
+            <p>
+              {renderDescription()}
+              {renderButton()}
+            </p>
+            <h6>usd. {this.props.price}</h6>
+            <Button bsStyle='primary'
+              onClick={this.handleCart}>
+              Buy now
+            </Button>
           </Col>
         </Row>
       </Well>

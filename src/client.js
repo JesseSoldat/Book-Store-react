@@ -17,13 +17,14 @@ const store = createStore(reducers, middleware);
 
 import Menu from './components/menu';
 import BooksList from './components/pages/booksList';
+import BookForm from './components/pages/bookForm';
 import Footer from './components/footer';
 
 export const history = createHistory();
 
 const About = () => <div>About</div>;
 const Contact = () => <div>Contact</div>;
-const Admin = () => <div>Admin</div>;
+
 
 
 const Routes = (
@@ -35,7 +36,7 @@ const Routes = (
             <Route path="/" component={BooksList} exact={true} />
             <Route path="/about" component={About} />
             <Route path="/contacts" component={Contact} />
-            <Route path="/admin" component={Admin} />
+            <Route path="/admin" component={BookForm} />
           </Switch>
           <Footer />   
         </div>

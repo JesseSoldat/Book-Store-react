@@ -34,7 +34,38 @@ app.post('/books', (req, res) => {
 app.get('/books', (req, res) => {
   Book.find((err, books) => {
     if(err) { throw err; }
+    console.log(books);
+    
     res.json(books)
+  });
+});
+
+//---->>> DELETE BOOKS <<<------
+app.delete('/books/:_id', (req, res) => {
+  const query = {_id: req.params._id};
+
+  Book.remove(query, (err, book) => {
+    if(err) { console.log('API Delete', err);}
+    res.json(book);
+  });
+});
+
+
+//---->>> UPDATE BOOKS <<<------
+app.put('/books/:_id', (req, res) => {
+  const book = req.body;
+  const query = req.param._id;
+  const update = {
+    '$set': {
+      title: book.title,
+      description: book.description,
+      price: book.price
+    }
+  }
+  const options = {new: true};
+  Book.findOneAndUpdate(query, update, options, (err, book) => {
+    if(err) { throw err; }
+    res.json(book);
   });
 });
 
