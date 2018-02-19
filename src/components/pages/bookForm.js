@@ -22,6 +22,7 @@ class BookForm extends Component {
       price: findDOMNode(this.refs.price).value
     }];
     this.props.postBook(book);
+    this.resetForm();
   };
 
 

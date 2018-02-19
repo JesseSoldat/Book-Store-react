@@ -18,6 +18,7 @@ const store = createStore(reducers, middleware);
 import Menu from './components/menu';
 import BooksList from './components/pages/booksList';
 import BookForm from './components/pages/bookForm';
+import Cart from './components/pages/cart';
 import Footer from './components/footer';
 
 export const history = createHistory();
@@ -37,6 +38,7 @@ const Routes = (
             <Route path="/about" component={About} />
             <Route path="/contacts" component={Contact} />
             <Route path="/admin" component={BookForm} />
+            <Route path="/cart" component={Cart} />
           </Switch>
           <Footer />   
         </div>

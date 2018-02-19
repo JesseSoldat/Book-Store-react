@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {Carousel, Grid, Col, Row, Button} from 'react-bootstrap';
 import {getBooks} from '../../actions/booksActions';
 
+import Cart from './cart';
 import BookItem from './bookItem';
 
 
@@ -54,6 +55,7 @@ class BooksList extends Component {
           </Carousel>
         </Row>
         <Row>
+          <Cart/>
         </Row>
         <Row style={{marginTop: '15px'}}>
           {booksList}
