@@ -4,9 +4,7 @@ import axios from 'axios';
 export function getBooks() {
   return (dispatch) => { 
     axios.get("/api/books")
-      .then((res) => {
-        console.log(res.data);
-        
+      .then((res) => {      
         dispatch({type: 'GET_BOOKS', payload: res.data});
       })
       .catch((err) => {

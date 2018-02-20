@@ -2,13 +2,38 @@
 import React, {Component} from 'react';
 import {Image, Row, Col, Well, Button} from 'react-bootstrap';
 import {connect} from 'react-redux';
+import {addToCart, updateCart} from '../../actions/cartActions';
 
 class BookItem extends Component {
   state = {
     isClicked: false
   };
 
-  handleCart = () => {}
+  handleCart = () => {
+    const book = [...this.props.cart, 
+      {
+        _id: this.props._id,
+        title: this.props.title,
+        description: this.props.description,
+        price: this.props.price,
+        quantity: 1
+      }
+    ];
+
+    if(this.props.cart.length > 0) {
+      const _id = this.props._id;
+      const cartIndex = this.props.cart.findIndex((item) => item._id === _id);
+
+      if(cartIndex === -1) {
+        this.props.addToCart(book);
+      } else {
+        this.props.updateCart(_id, 1, this.props.cart);
+      }
+    } else {
+      this.props.addToCart(book);
+    }
+   
+  }
 
     
   onReadMore = () => {
@@ -64,4 +89,9 @@ const mapStateToProps = ({cart}) => ({
   cart: cart.cart
 });
 
-export default connect(mapStateToProps)(BookItem);
+const mapDispatchToProps = (dispatch) => ({
+  addToCart: (cart) => dispatch(addToCart(cart)),
+  updateCart: (id, qty, cart) => dispatch(updateCart(id, qty, cart))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookItem);

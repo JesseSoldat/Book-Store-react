@@ -1,6 +1,4 @@
 "use strict"
-console.log('app works;');
-
 import React from 'react';
 import {render} from 'react-dom';
 import {Provider} from 'react-redux';
@@ -25,8 +23,6 @@ export const history = createHistory();
 
 const About = () => <div>About</div>;
 const Contact = () => <div>Contact</div>;
-
-
 
 const Routes = (
   <Provider store={store}>
