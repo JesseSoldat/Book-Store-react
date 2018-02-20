@@ -20,6 +20,7 @@ class BooksList extends Component {
           <BookItem _id={book._id}
             title={book.title}
             description={book.description}
+            images={book.images}
             price={book.price}
           />
         </Col>
@@ -27,9 +28,10 @@ class BooksList extends Component {
     });
 
     return (
+      <div>
       <Grid>
         <Row>
-          <Carousel>
+          <Carousel id="carousel">
             <Carousel.Item>
               <img src="/images/home1.jpg" 
                 alt="900x300"
@@ -54,13 +56,14 @@ class BooksList extends Component {
             </Carousel.Item>
           </Carousel>
         </Row>
-        <Row>
-          <Cart/>
-        </Row>
-        <Row style={{marginTop: '15px'}}>
-          {booksList}
-        </Row>
       </Grid>
+      <Row id="cartRow">
+        <Cart/>
+      </Row>
+      <Row style={{marginTop: '15px'}} id="bookRow">
+        {booksList}
+      </Row>
+    </div>
     );
   }
 }

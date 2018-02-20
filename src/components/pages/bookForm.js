@@ -2,27 +2,36 @@
 import React, {Component} from 'react';
 import {MenuItem, InputGroup, DropdownButton, Image, Col, Row, Well, Panel, FormControl, FormGroup, ControlLabel, Button} from 'react-bootstrap';
 import {connect} from 'react-redux';
+import axios from 'axios';
 import {findDOMNode} from 'react-dom';
-import {postBook, deleteBook, getBooks} from '../../actions/booksActions';
+import {postBook, deleteBook, getBooks, resetButton} from '../../actions/booksActions';
 
 class BookForm extends Component {
   state = {
-    images: [{}],
+    images: [],
     img: ''
   }
 
   componentDidMount() {
     this.props.getBooks();
+
+    axios.get('/api/images')
+      .then(res => {
+        this.setState(() => ({images: res.data}));  
+      })
+      .catch(err => {
+        this.setState(() => ({images: [], img: ''}))
+      });
   }
 
   handleSubmit = () => {
     const book = [{
       title: findDOMNode(this.refs.title).value,
       description: findDOMNode(this.refs.description).value,
+      images: findDOMNode(this.refs.image).value,
       price: findDOMNode(this.refs.price).value
     }];
     this.props.postBook(book);
-    this.resetForm();
   };
 
 
@@ -31,17 +40,21 @@ class BookForm extends Component {
     this.props.deleteBook(bookId);
   };
 
-  handleSelect = () => {};
+  handleSelect = (img) => {
+    this.setState(() => ({img: '/images/'+ img}))
+  };
 
   resetForm = () => {
+    this.props.resetButton();
     findDOMNode(this.refs.title).value = '';
     findDOMNode(this.refs.description).value = '';
     findDOMNode(this.refs.price).value = '';
-  };
-
-  
+    this.setState(() => ({img: ''}));
+  }; 
 
   render() {
+    // console.log('FORM PROPS', this.props);
+    
     const renderButton = () => (
       <Button
         onClick={(!this.props.msg ? (this.handleSubmit) : (this.resetForm))}
@@ -55,13 +68,30 @@ class BookForm extends Component {
       <option key={book._id} value={book._id}>{book.title}</option>
     ));
 
+    const imgList = this.state.images.map((img, i) => (
+      <MenuItem key={i} eventKey={img.name}
+        onClick={() => this.handleSelect(img.name)}>
+        {img.name}
+      </MenuItem>
+    ));
+
     return(
       <Well>
         <Row>
           <Col xs={12} sm={6}>
             <Panel>
               <InputGroup>
+                <FormControl type="text" ref="image"
+                  value={this.state.img} />
+                  <DropdownButton componentClass={InputGroup.Button}
+                    id="input-dropdown-addon"
+                    title="Select an image"
+                    bsStyle="primary"
+                  >
+                    {imgList}                  
+                  </DropdownButton>
               </InputGroup>
+              <Image src={this.state.img} responsive />
             </Panel>
           </Col>
 
@@ -136,7 +166,8 @@ const mapStateToProps = ({books}) => ({
 const mapDispatchToProps = (dispatch) => ({
   postBook: (book) => dispatch(postBook(book)),
   deleteBook: (id) => dispatch(deleteBook(id)),
-  getBooks: () => dispatch(getBooks())
+  getBooks: () => dispatch(getBooks()),
+  resetButton: () => dispatch(resetButton())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BookForm);

@@ -47,7 +47,7 @@ class Cart extends Component {
       <Panel key={item._id}>
         <Row>
           <Col xs={12} sm={4}>
-            <h6>{item.title}</h6><span>    </span>
+            <h6 id="cartTitle">{item.title}</h6><span>    </span>
           </Col>
           <Col xs={12} sm={2}>
             <h6>usd. {item.price}</h6>
@@ -56,8 +56,8 @@ class Cart extends Component {
             <h6>qty. <Label bsStyle="success">{item.quantity}</Label>
             </h6>
           </Col>
-          <Col xs={12} sm={4}>
-            <ButtonGroup style={{minWidth: '300px'}}>
+          <Col xs={12} sm={4} id="buttonWrapper">
+            <ButtonGroup style={{minWidth: '150px'}}>
               <Button bsStyle="default" bsSize="small"
                 onClick={() => this.onDecrement(item._id, item.quantity)}
               > -
@@ -80,7 +80,7 @@ class Cart extends Component {
 
 
     return (
-      <Panel header="Cart" bsStyle="primary">
+      <Panel header="Cart" bsStyle="primary" id="cart">
         {cartItemsList}
         <Row>
           <Col xs={12}>
@@ -102,7 +102,7 @@ class Cart extends Component {
           </Modal.Body>
           <Modal.Footer>
             <Col xs={6}>
-              <h6>total $: {this.props.totalAmount}</h6>
+              <h6>total: ${this.props.totalAmount}</h6>
             </Col>
             <Button onClick={this.close}>Close</Button>
           </Modal.Footer>

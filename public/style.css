@@ -9,6 +9,36 @@ body {
   padding: 0 15px;
 }
 
+#cartRow {
+  width: 85%;
+  margin: 0 auto;
+}
+
+#cart {
+  margin-top: 2%;    
+  padding: 2%;
+}
+
+#cartTitle {
+  padding-left: 15px;
+
+}
+
+.btn-group {
+  padding: 5px;
+}
+
+@media screen and (min-width: 767px) {
+  .btn-group {
+    float: right;
+  }
+}
+
+#bookRow {
+  width: 90%;
+  margin: 0 auto;
+}
+
 .container .footer-text{
   margin: 20px 0;
 }

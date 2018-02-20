@@ -17,7 +17,7 @@ export function postBook(book) {
   return (dispatch) => {
     axios.post("/api/books", book)
       .then((res) => {
-        dispatch({type: 'POST_BOOK', payload: res.date});
+        dispatch({type: 'POST_BOOK', payload: res.data});
       })
       .catch((err) => {
         dispatch({type: 'POST_BOOK_REJECTED', payload: 'There was an error while posting a new book'});

@@ -10,7 +10,21 @@ const initialState = {
 export function booksReducer(state = {books: []}, action) {
   switch(action.type) {
     case "GET_BOOKS":
+      // console.log('GET_BOOKS', action.payload);
       return {...state, books: [...action.payload]};
+      break;
+
+    case "POST_BOOK":
+      return {
+        ...state,
+        books: [
+          ...state.books, 
+          ...action.payload
+        ],
+        msg: 'Saved! Click to continue',
+        style: 'success',
+        validation: 'success'
+      };
       break;
 
     case "POST_BOOK_REJECTED":

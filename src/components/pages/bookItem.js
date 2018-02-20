@@ -59,13 +59,12 @@ class BookItem extends Component {
       }
       </button>
     );
-
-  
+ 
     return (
       <Well>
         <Row>
           <Col xs={12} sm={4}>
-
+            <Image src={this.props.images} responsive />
           </Col>
           <Col xs={6} sm={8}>
             <h6>{this.props.title}</h6>

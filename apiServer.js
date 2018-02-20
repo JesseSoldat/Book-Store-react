@@ -89,6 +89,26 @@ app.put('/books/:_id', (req, res) => {
 });
 
 
+// --->>> GET BOOKS IMAGES API <<<------
+app.get('/images', (req, res) => {
+  const imgFolder = __dirname + '/public/images/';
+  const fs = require('fs');
+  
+  fs.readdir(imgFolder, (err, files) => {
+    if(err) return console.log(err);
+    const filesArray = [];
+    files.forEach(file => {
+      if(file.match(/^\s*?\..*$/)) {
+        // console.log('Matched', file);
+        return;
+      }
+      filesArray.push({name: file});
+    });
+      res.json(filesArray);
+  });
+});
+
+
 // END APIs
 app.listen(3001, (err) => {
   if(err) {
