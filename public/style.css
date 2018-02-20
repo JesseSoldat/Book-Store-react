@@ -15,6 +15,7 @@ body {
 
 .badge {
   background: #e4aa48;
+  margin-left: 0;
 }
 
 button.link {

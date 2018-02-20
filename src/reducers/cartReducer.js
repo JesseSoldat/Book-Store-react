@@ -22,8 +22,7 @@ export function cartReducer(state = {cart: []}, action) {
       break;
 
     case "UPDATE_CART":
-      console.log('UPDATE_CART', action.payload);
-      
+      // console.log('UPDATE_CART', action.payload);     
       return {
         ...state,
         cart: action.payload,
@@ -31,6 +30,14 @@ export function cartReducer(state = {cart: []}, action) {
         totalQty: totalQty(action.payload).qty
       };
       break;
+
+    case "DELETE_CART_ITEM":
+      return {
+        ...state,
+        cart: action.payload,
+        totalAmount: totalAmount(action.payload).amount,
+        totalQty: totalQty(action.payload).qty
+      }
    
     default:
       return state;

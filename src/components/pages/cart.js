@@ -2,18 +2,32 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Modal, Panel, Col, Row, Well, Button, ButtonGroup, Label} from 'react-bootstrap';
-import {addToCart, getCart} from '../../actions/cartActions';
+import {addToCart, getCart, updateCart, deleteCartItem} from '../../actions/cartActions';
 
 class Cart extends Component {
   state = { showModal: false }
 
   componentDidMount() { this.props.getCart();}
 
-  onDelete = (_id) => {};
+  onDelete = (_id) => {
+    const cartArray = this.props.cart;
+    const indexToDelete = cartArray.findIndex(item => (item._id === _id));
+    const cartAfterDelete = [
+      ...cartArray.slice(0, indexToDelete),
+      ...cartArray.slice(indexToDelete + 1)
+    ];
+    this.props.deleteCartItem(cartAfterDelete);
+  };
 
-  onIncrement = (_id) => {};
+  onIncrement = (_id) => {
+    this.props.updateCart(_id, 1, this.props.cart);
+  };
 
-  onDecrement = (_id, quantity) => {};
+  onDecrement = (_id, quantity) => {
+    if(quantity > 1) {
+      this.props.updateCart(_id, -1, this.props.cart);
+    }
+  };
 
   open = () => { this.setState(() => ({showModal: true}));}
 
@@ -76,6 +90,23 @@ class Cart extends Component {
             </Button>
           </Col>
         </Row>
+
+        <Modal show={this.state.showModal}
+          onHide={this.close}>
+          <Modal.Header closeButton>
+            <Modal.Title>Thank You!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <h6>Your order has been saved</h6>
+            <p>You will receive an email confirmation</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Col xs={6}>
+              <h6>total $: {this.props.totalAmount}</h6>
+            </Col>
+            <Button onClick={this.close}>Close</Button>
+          </Modal.Footer>
+        </Modal>
         
       </Panel>
     );
@@ -89,7 +120,9 @@ const mapStateToProps = ({cart}) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getCart: () => dispatch(getCart()),
-  addToCart: (cart) => dispatch(addToCart(cart))
+  addToCart: (cart) => dispatch(addToCart(cart)),
+  updateCart: (id, qty, cart) => dispatch(updateCart(id, qty, cart)),
+  deleteCartItem: (cart) => dispatch(deleteCartItem(cart))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);
